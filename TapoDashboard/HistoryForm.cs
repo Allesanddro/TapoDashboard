@@ -10,7 +10,7 @@ namespace TapoDashboard
             InitializeComponent();
         }
 
-        private void HistoryForm_Load_1(object sender, EventArgs e)
+        private void HistoryForm_Load(object sender, EventArgs e)
         {
             dgvIndividualHistory.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvIndividualHistory.ReadOnly = true;
@@ -18,18 +18,14 @@ namespace TapoDashboard
             dgvSummaryHistory.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvSummaryHistory.ReadOnly = true;
             dgvSummaryHistory.AllowUserToAddRows = false;
-
             dtpEndDate.Value = DateTime.Now;
             dtpStartDate.Value = DateTime.Now.AddDays(-30);
 
             try
             {
-                // Use the new method to get plug identifiers
                 var plugs = DatabaseHelper.GetUniquePlugs();
                 cmbIpAddresses.DataSource = plugs;
-                // Tell the dropdown what to SHOW the user
                 cmbIpAddresses.DisplayMember = "DisplayText";
-                // Tell the dropdown what the underlying VALUE is
                 cmbIpAddresses.ValueMember = "IP";
             }
             catch (Exception ex)
@@ -40,16 +36,14 @@ namespace TapoDashboard
             LoadSummaryData();
         }
 
-        private void btnFilter_Click_1(object sender, EventArgs e)
+        private void btnFilter_Click(object sender, EventArgs e)
         {
-            if (cmbIpAddresses.SelectedValue == null)
+            if (cmbIpAddresses.SelectedValue is not string selectedIp || string.IsNullOrEmpty(selectedIp))
             {
                 MessageBox.Show("Please select a plug.", "Selection Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // Get the IP address from the dropdown's 'SelectedValue'
-            string selectedIp = cmbIpAddresses.SelectedValue.ToString();
             DateTime startDate = dtpStartDate.Value.Date;
             DateTime endDate = dtpEndDate.Value.Date.AddDays(1).AddTicks(-1);
 
@@ -81,8 +75,8 @@ namespace TapoDashboard
     public class HistoryEntry
     {
         public DateTime Timestamp { get; set; }
-        public string IPAddress { get; set; }
-        public string PlugName { get; set; }
+        public string IPAddress { get; set; } = string.Empty;
+        public string PlugName { get; set; } = string.Empty;
         public decimal Wattage { get; set; }
         public decimal Kwh30Day { get; set; }
         public decimal Cost30Day { get; set; }

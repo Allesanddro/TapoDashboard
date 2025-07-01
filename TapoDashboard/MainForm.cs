@@ -6,15 +6,15 @@ using System.Text;
 
 namespace TapoDashboard
 {
-    public partial class main : Form
+    public partial class MainForm : Form
     {
-        public main()
+        public MainForm()
         {
             InitializeComponent();
-            this.FormClosing += new FormClosingEventHandler(Form1_FormClosing);
+            this.FormClosing += new FormClosingEventHandler(MainForm_FormClosing);
         }
 
-        private void Form1_Load_1(object sender, EventArgs e)
+        private void MainForm_Load(object sender, EventArgs e)
         {
             DatabaseHelper.InitializeDatabase();
             dgvPlugs.ColumnCount = 5;
@@ -27,8 +27,6 @@ namespace TapoDashboard
             txtPassword.UseSystemPasswordChar = true;
             LoadSettings();
         }
-
-        #region Settings and Persistence
 
         private void LoadSettings()
         {
@@ -75,16 +73,12 @@ namespace TapoDashboard
             Properties.Settings.Default.Save();
         }
 
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        private void MainForm_FormClosing(object? sender, FormClosingEventArgs e)
         {
             SaveSettings();
         }
 
-        #endregion
-
-        #region IP List Management
-
-        private void btnAddIp_Click_1(object sender, EventArgs e)
+        private void btnAddIp_Click(object sender, EventArgs e)
         {
             var newIp = txtNewIp.Text.Trim();
             if (string.IsNullOrEmpty(newIp)) { MessageBox.Show("Please enter an IP address.", "Input Required", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
@@ -94,23 +88,19 @@ namespace TapoDashboard
             txtNewIp.Clear();
         }
 
-        private void btnRemoveIp_Click_1(object sender, EventArgs e)
+        private void btnRemoveIp_Click(object sender, EventArgs e)
         {
             if (lstIpAddresses.SelectedItem == null) { MessageBox.Show("Please select an IP address from the list to remove.", "Selection Required", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
             lstIpAddresses.Items.Remove(lstIpAddresses.SelectedItem);
         }
 
-        private void btnShowHistory_Click_1(object sender, EventArgs e)
+        private void btnShowHistory_Click(object sender, EventArgs e)
         {
             HistoryForm historyForm = new HistoryForm();
             historyForm.Show();
         }
 
-        #endregion
-
-        #region Main Dashboard Logic
-
-        private async void btnRefresh_Click_1(object sender, EventArgs e)
+        private async void btnRefresh_Click(object sender, EventArgs e)
         {
             SaveSettings();
             dgvPlugs.Rows.Clear();
@@ -156,7 +146,7 @@ namespace TapoDashboard
                     {
                         Timestamp = DateTime.Now,
                         IPAddress = ipAddress.ToString(),
-                        PlugName = plugName,
+                        PlugName = plugName ?? string.Empty,
                         Wattage = currentPower,
                         Kwh30Day = totalEnergyKwh,
                         Cost30Day = cost
@@ -187,7 +177,6 @@ namespace TapoDashboard
             if (dgvPlugs.Rows.Count > 0)
             {
                 dgvPlugs.Rows.Add(new DataGridViewRow());
-
                 var totalRow = new DataGridViewRow();
                 totalRow.CreateCells(dgvPlugs);
                 totalRow.Cells[2].Value = "TOTAL:";
@@ -205,6 +194,5 @@ namespace TapoDashboard
             btnRefresh.Enabled = true;
             btnRefresh.Text = "REFRESH DATA";
         }
-        #endregion
     }
 }

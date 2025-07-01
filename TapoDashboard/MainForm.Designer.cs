@@ -1,6 +1,6 @@
 ﻿namespace TapoDashboard
 {
-    partial class main
+    partial class MainForm
     {
         /// <summary>
         ///  Required designer variable.
@@ -114,7 +114,7 @@
             btnAddIp.TabIndex = 7;
             btnAddIp.Text = "Add";
             btnAddIp.UseVisualStyleBackColor = true;
-            btnAddIp.Click += btnAddIp_Click_1;
+            btnAddIp.Click += btnAddIp_Click;
             // 
             // btnRemoveIp
             // 
@@ -124,7 +124,7 @@
             btnRemoveIp.TabIndex = 8;
             btnRemoveIp.Text = "Remove Selected";
             btnRemoveIp.UseVisualStyleBackColor = true;
-            btnRemoveIp.Click += btnRemoveIp_Click_1;
+            btnRemoveIp.Click += btnRemoveIp_Click;
             // 
             // lstIpAddresses
             // 
@@ -153,7 +153,7 @@
             btnRefresh.TabIndex = 11;
             btnRefresh.Text = "REFRESH DATA";
             btnRefresh.UseVisualStyleBackColor = true;
-            btnRefresh.Click += btnRefresh_Click_1;
+            btnRefresh.Click += btnRefresh_Click;
             // 
             // label4
             // 
@@ -181,9 +181,9 @@
             btnShowHistory.TabIndex = 14;
             btnShowHistory.Text = "Show History";
             btnShowHistory.UseVisualStyleBackColor = true;
-            btnShowHistory.Click += btnShowHistory_Click_1;
+            btnShowHistory.Click += btnShowHistory_Click;
             // 
-            // Form1
+            // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -203,9 +203,9 @@
             Controls.Add(txtPassword);
             Controls.Add(txtEmail);
             Controls.Add(label1);
-            Name = "Form1";
+            Name = "MainForm";
             Text = "Form1";
-            Load += Form1_Load_1;
+            Load += MainForm_Load;
             ((System.ComponentModel.ISupportInitialize)dgvPlugs).EndInit();
             ((System.ComponentModel.ISupportInitialize)numCost).EndInit();
             ResumeLayout(false);

@@ -92,7 +92,7 @@
             btnFilter.TabIndex = 6;
             btnFilter.Text = "Apply Filter";
             btnFilter.UseVisualStyleBackColor = true;
-            btnFilter.Click += btnFilter_Click_1;
+            btnFilter.Click += btnFilter_Click;
             // 
             // dtpEndDate
             // 
@@ -171,7 +171,7 @@
             Controls.Add(tabControl1);
             Name = "HistoryForm";
             Text = "Form2";
-            Load += HistoryForm_Load_1;
+            Load += HistoryForm_Load;
             tabControl1.ResumeLayout(false);
             tabPageIndividual1.ResumeLayout(false);
             tabPageIndividual1.PerformLayout();

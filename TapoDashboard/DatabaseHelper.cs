@@ -168,8 +168,8 @@ namespace TapoDashboard
 
     public class PlugIdentifier
     {
-        public string IP { get; set; }
-        public string Name { get; set; }
+        public string IP { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
         public string DisplayText => $"{Name} ({IP})";
     }
 }
