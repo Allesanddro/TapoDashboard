@@ -29,26 +29,14 @@ jobs:
     - name: Publish the application
       run: dotnet publish --configuration Release --output ./publish
 
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Zip the publish folder
+      run: Compress-Archive -Path ./publish/* -DestinationPath ./TapoDashboard-Release.zip
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v2
       with:
         tag_name: v${{ github.run_number }}
-        release_name: Release v${{ github.run_number }}
+        name: Release v${{ github.run_number }}
         body: |
           Automated release for commit ${{ github.sha }}
-        draft: false
-        prerelease: false
-
-    - name: Upload Release Asset
-      id: upload-release-asset
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./publish/TapoDashboard.exe
-        asset_name: TapoDashboard.exe
-        asset_content_type: application/vnd.microsoft.portable-executable
+        files: TapoDashboard-Release.zip
