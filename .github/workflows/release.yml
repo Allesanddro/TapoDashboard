@@ -1,0 +1,51 @@
+name: .NET Release
+
+on:
+  push:
+    branches: [ "main" ] # This workflow runs when you push to the 'main' branch
+
+jobs:
+  build:
+    runs-on: windows-latest # Use a Windows runner for a Windows Forms app
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x # Match your project's .NET version
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build the application
+      run: dotnet build --configuration Release --no-restore
+
+    - name: Publish the application
+      run: dotnet publish --configuration Release --output ./publish
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v${{ github.run_number }}
+        release_name: Release v${{ github.run_number }}
+        body: |
+          Automated release for commit ${{ github.sha }}
+        draft: false
+        prerelease: false
+
+    - name: Upload Release Asset
+      id: upload-release-asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./publish/TapoDashboard.exe # IMPORTANT: Change 'TapoDashboard' if your .exe has a different name
+        asset_name: TapoDashboard.exe
+        asset_content_type: application/vnd.microsoft.portable-executable
