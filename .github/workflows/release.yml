@@ -2,11 +2,11 @@ name: .NET Release
 
 on:
   push:
-    branches: [ "main" ] # This workflow runs when you push to the 'main' branch
+    branches: [ "master" ]
 
 jobs:
   build:
-    runs-on: windows-latest # Use a Windows runner for a Windows Forms app
+    runs-on: windows-latest
 
     steps:
     - name: Checkout repository
@@ -15,7 +15,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 8.0.x # Match your project's .NET version
+        dotnet-version: 8.0.x
 
     - name: Restore dependencies
       run: dotnet restore
@@ -46,6 +46,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./publish/TapoDashboard.exe # IMPORTANT: Change 'TapoDashboard' if your .exe has a different name
+        asset_path: ./publish/TapoDashboard.exe
         asset_name: TapoDashboard.exe
         asset_content_type: application/vnd.microsoft.portable-executable
