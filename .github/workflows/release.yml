@@ -27,7 +27,7 @@ jobs:
       run: dotnet build --configuration Release --no-restore
 
     - name: Publish the application
-      run: dotnet publish TapoDashboard.csproj --configuration Release --output ./publish --no-build
+      run: dotnet publish TapoDashboard/TapoDashboard.csproj --configuration Release --output ./publish --no-build
 
     - name: Zip the publish folder
       run: Compress-Archive -Path ./publish/* -DestinationPath ./TapoDashboard-Release.zip
